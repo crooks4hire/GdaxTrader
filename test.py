@@ -4,7 +4,6 @@
 #
 #
 # Template object to receive messages from the gdax Websocket Feed
-#ADDED RANDOM ADDITIONAL COMMENT
 
 from __future__ import print_function
 import sys
