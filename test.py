@@ -20,6 +20,11 @@ from websocket import create_connection, WebSocketConnectionClosedException
 
 init()
 
+def updatePriceHistory(priceStr, sizeStr):
+    with open("priceHistory.txt", "a") as f:
+	    f.write("\n")
+	    f.write(sizeStr + "," + priceStr)
+
 class MyWebsocketClient(gdax.WebsocketClient):
 		def on_open(self):
 			self.url = "wss://ws-feed.gdax.com/"
@@ -35,6 +40,7 @@ class MyWebsocketClient(gdax.WebsocketClient):
 				price = msg["price"]
 				size = msg["size"]
 				side = msg["side"]
+				updatePriceHistory(price, size)
 				
 				if side == "sell":
 					print(Back.GREEN, end="")
