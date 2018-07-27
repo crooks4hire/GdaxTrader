@@ -14,6 +14,7 @@ import base64
 import hmac
 import hashlib
 import time
+import datetime
 from threading import Thread
 from websocket import create_connection, WebSocketConnectionClosedException
 
@@ -29,15 +30,20 @@ class MyWebsocketClient(gdax.WebsocketClient):
 		def on_message(self, msg):
 			if msg["type"]=="match":
 				#print(json.dumps(msg, indent=4, sort_keys=True))
+				msgTime = time.time()
+				msgTimeStr = datetime.datetime.fromtimestamp(msgTime).strftime('%H:%M:%S')
 				price = msg["price"]
+				size = msg["size"]
 				side = msg["side"]
 				
 				if side == "sell":
 					print(Back.GREEN, end="")
 				else:
 					print(Back.RED, end="")
-				print(side + "\t", end=" ")
+				print(side + "\t", end="")
+				print(size + "\t", end="")
 				print(price[:5], end="")
+				print("\t" + msgTimeStr, end="")
 				print(Style.RESET_ALL)
 			self.message_count += 1
 
